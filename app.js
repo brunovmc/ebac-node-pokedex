@@ -1,4 +1,5 @@
 const express = require("express");
+const createError = require("http-errors");
 const path = require("path");
 const expressLayouts = require("express-ejs-layouts");
 const { connect } = require("./models");
@@ -22,6 +23,20 @@ app.use("/batalha", batalhaRouter);
 
 //declaring api routes
 app.use("/api", capturaRouter);
+
+//no match found 404
+app.use((_req, _res, next) => {
+  next(createError(404));
+});
+
+//handling error
+app.use((err, _req, res, _next) => {
+  res.status(err.status || 500);
+  res.render("paginas/erro", {
+    mensagem: err.message,
+    erro: err,
+  });
+});
 
 app.listen(port, () => {
   connect();
