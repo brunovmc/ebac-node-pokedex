@@ -5,21 +5,21 @@ const Pokemon = new Schema({
     type: Number,
     required: true,
   },
-  name: {
+  nome: {
     type: String,
     required: true,
   },
-  height: {
+  altura: {
     type: Number,
     required: true,
     min: 0,
   },
-  weight: {
+  peso: {
     type: Number,
     required: true,
     min: 0,
   },
-  image: {
+  imagem: {
     type: String,
     required: true,
     validate: {
@@ -29,11 +29,11 @@ const Pokemon = new Schema({
       message: () => "image must be an absolute url",
     },
   },
-  atacks: {
+  ataques: {
     type: String,
     required: true,
   },
-  statistics: {
+  estatisticas: {
     type: Object,
     required: true,
   },
