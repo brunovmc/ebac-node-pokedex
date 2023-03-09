@@ -22,7 +22,7 @@ const populaBancoDeDados = async () => {
       "special-defense": 64,
       speed: 43,
     },
-    jogos: [],
+    jogos: ["red", "blue", "yellow", "gold"],
   });
   await mongoose.disconnect();
 };
