@@ -17,6 +17,10 @@ const buscaInfoPokemon = (pokeId) => {
         data.stats.forEach((estatistica) => {
           estatisticas[estatistica.stat.name] = estatistica.base_stat;
         });
+        const jogos = [];
+        for (var i = 0; i < data.game_indices.length; i++) {
+          jogos.push(data.game_indices[i].version.name);
+        }
         resolve({
           id,
           nome,
@@ -25,6 +29,7 @@ const buscaInfoPokemon = (pokeId) => {
           imagem,
           ataques,
           estatisticas,
+          jogos,
         });
       })
       .catch((e) => reject(e));

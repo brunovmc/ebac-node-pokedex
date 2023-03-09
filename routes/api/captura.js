@@ -17,6 +17,8 @@ router.post("/captura/:id", (req, res) => {
             });
           })
           .catch((e) => res.status(500).json({ erro: e }));
+      } else {
+        window.location.reload();
       }
     })
     .catch((_) => res.status(404).json({ erro: "pokemon nao encontrado" }));
