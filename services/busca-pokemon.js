@@ -1,39 +1,43 @@
+require("dotenv").config();
+
 const axios = require("axios");
 
-const buscaInfoPokemon = (pokeId) => {
-  return new Promise((resolve, reject) => {
-    const url = "https://pokeapi.co/api/v2/pokemon/" + pokeId;
-    axios
-      .get(url)
-      .then((result) => {
-        const data = result.data;
-        const id = data.id;
-        const nome = data.name;
-        const altura = data.height;
-        const peso = data.weight;
-        const imagem = data.sprites.other["official-artwork"].front_default;
-        const ataques = data.abilities.map((a) => a.ability.name).join(", ");
-        const estatisticas = {};
-        data.stats.forEach((estatistica) => {
-          estatisticas[estatistica.stat.name] = estatistica.base_stat;
-        });
-        const jogos = [];
-        for (var i = 0; i < data.game_indices.length; i++) {
-          jogos.push(data.game_indices[i].version.name);
-        }
-        resolve({
-          id,
-          nome,
-          altura,
-          peso,
-          imagem,
-          ataques,
-          estatisticas,
-          jogos,
-        });
-      })
-      .catch((e) => reject(e));
-  });
+const buscaInfoPokemon = async (pokeId) => {
+  try {
+    const { data } = await axios.get(process.env.API_URL + pokeId);
+    const {
+      id,
+      name: nome,
+      height: altura,
+      weight: peso,
+      sprites: {
+        other: {
+          "official-artwork": { front_default: imagem },
+        },
+      },
+      abilities,
+      stats,
+      game_indices,
+    } = data;
+    const ataques = abilities.map(({ ability: { name } }) => name).join(", ");
+    const estatisticas = stats.reduce((acc, { stat: { name }, base_stat }) => {
+      acc[name] = base_stat;
+      return acc;
+    }, {});
+    const jogos = game_indices.map(({ version: { name } }) => name);
+    return {
+      id,
+      nome,
+      altura,
+      peso,
+      imagem,
+      ataques,
+      estatisticas,
+      jogos,
+    };
+  } catch (e) {
+    throw e;
+  }
 };
 
 module.exports = buscaInfoPokemon;
