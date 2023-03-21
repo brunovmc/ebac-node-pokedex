@@ -24,4 +24,6 @@ const Usuario = new Schema({
   },
 });
 
+Usuario.index({ email: 1 });
+
 module.exports = Usuario;
