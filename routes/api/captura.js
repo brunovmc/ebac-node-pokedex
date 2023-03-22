@@ -2,6 +2,7 @@ const express = require("express");
 
 const buscaInfoPokemon = require("../../services/busca-pokemon");
 const { Pokemon } = require("../../models");
+
 const router = express.Router();
 
 router.post("/:id", async (req, res) => {
@@ -20,7 +21,7 @@ router.post("/:id", async (req, res) => {
         id: pokemonCapturado._id,
       });
     } else {
-      window.location.reload();
+      res.redirect("/");
     }
   } catch (e) {
     res.status(404).json({ erro: "pokemon nao encontrado" });
