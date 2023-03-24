@@ -47,4 +47,22 @@ router.get(
   }
 );
 
+router.get(
+  "/github",
+  checaNaoAutenticado,
+  passport.authenticate("github", { scope: ["user:email"] })
+);
+
+router.get(
+  "/oauth2/redirect/github",
+  checaNaoAutenticado,
+  passport.authenticate("github", {
+    failureRedirect: "/auth",
+    failureMessage: true,
+  }),
+  (req, res) => {
+    res.redirect("/");
+  }
+);
+
 module.exports = router;

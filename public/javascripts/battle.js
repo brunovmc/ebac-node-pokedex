@@ -41,6 +41,7 @@ const makeCaptureRequest = () => {
       releasePokemon();
     }
   }, Math.random() * 4000 + 1000);
+  localStorage.removeItem("token");
 };
 
 document.addEventListener(
